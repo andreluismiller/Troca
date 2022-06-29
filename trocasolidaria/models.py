@@ -2,6 +2,7 @@ from django.db import models
 from django.db import models
 from datetime import datetime 
 from django.urls import reverse
+from django.forms import ModelForm
 
 """
 Modelo para o produtor
@@ -56,6 +57,8 @@ class Alimento(models.Model):
     cultura = models.CharField(max_length=1, choices=TIPO_PRODUCAO, default='t', blank=True, help_text='Tipo de cultura do produto')
     descricao = models.CharField(max_length=100, blank=True, help_text='Nome do alimento')
     
+    def __str__(self):
+        return self.descricao
 
     @staticmethod
     def get_alimentos_por_id(ids):
@@ -65,9 +68,13 @@ class Alimento(models.Model):
     def get_all_alimentos():
         return Alimento.objects.all()
   
-
-
-
+"""
+Form para o cadastro de produtos
+"""
+class ProdutoForm(ModelForm):
+    class Meta:
+        model = Alimento
+        fields = '__all__'
 
 
 
@@ -78,7 +85,7 @@ Deverá conter 2 ou mais produtos
 class Cesta(models.Model):
     produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE)
     resumo = models.CharField(max_length=500, null=True, help_text="Descrição resumida")
-    produtos = models.ForeignKey(Alimento, on_delete=models.CASCADE)
+    produtos = models.ManyToManyField(Alimento, on_delete=models.CASCADE)
     valor_estimado = models.FloatField()
    
     STATUS_DISPONIBILIDADE = (
@@ -108,6 +115,12 @@ class Cesta(models.Model):
     @staticmethod
     def get_cestas_por_produtor(produtor_id):
         return Cesta.objects.filter(produtor=produtor_id).order_by('-data_cadastro')
+
+
+class CestForm(ModelForm):
+    class meta:
+        model = Cesta
+        fields = ['produtor', 'resumo', 'produtos', 'valor estimado' 'disponibilidade', 'data_retirada']
 
 
 
