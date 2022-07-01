@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from django.db import models
 from datetime import datetime 
@@ -68,13 +69,13 @@ class Alimento(models.Model):
     def get_all_alimentos():
         return Alimento.objects.all()
   
-"""
-Form para o cadastro de produtos
-"""
-class ProdutoForm(ModelForm):
-    class Meta:
-        model = Alimento
-        fields = '__all__'
+# """
+# Form para o cadastro de produtos
+# """
+# class ProdutoForm(ModelForm):
+#     class Meta:
+#         model = Alimento
+#         fields = '__all__'
 
 
 
@@ -83,9 +84,16 @@ Model para cadastro de cesta
 Deverá conter 2 ou mais produtos
 """
 class Cesta(models.Model):
+
     produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE)
+    
+    whatsapp = models.CharField(max_length=11, null=True)
+    
     resumo = models.CharField(max_length=500, null=True, help_text="Descrição resumida")
-    produtos = models.ManyToManyField(Alimento, on_delete=models.CASCADE)
+    #produtos = models.ManyToManyField(Alimento)
+    alimento = models.CharField(max_length=100, blank=True, verbose_name='Nome alimento 1: ')
+    alimento_2 = models.CharField(max_length=100, blank=True, verbose_name='Nome alimento 2: ') 
+    
     valor_estimado = models.FloatField()
    
     STATUS_DISPONIBILIDADE = (
@@ -96,7 +104,9 @@ class Cesta(models.Model):
     disponibilidade = models.CharField(max_length=1, choices=STATUS_DISPONIBILIDADE, default='d', blank=True)
     data_cadastro = models.DateTimeField(default=datetime.now, blank=True)
     data_retirada = models.DateField(null=True, blank=True)
-    imagem = models.ImageField(upload_to='uploads/imagens/')
+    
+    endereco = models.CharField(max_length=100, null=True, verbose_name='Endereço para retirada')
+    #imagem = models.ImageField(upload_to='uploads/imagens/')
 
     # @property
     # def ImagemURL(self):
@@ -117,10 +127,10 @@ class Cesta(models.Model):
         return Cesta.objects.filter(produtor=produtor_id).order_by('-data_cadastro')
 
 
-class CestForm(ModelForm):
-    class meta:
-        model = Cesta
-        fields = ['produtor', 'resumo', 'produtos', 'valor estimado' 'disponibilidade', 'data_retirada']
+# class CestForm(ModelForm):
+#     class meta:
+#         model = Cesta
+#         fields = ['produtor', 'resumo', 'produtos', 'valor estimado' 'disponibilidade', 'data_retirada']
 
 
 

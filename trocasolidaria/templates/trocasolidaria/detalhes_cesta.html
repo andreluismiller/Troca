@@ -1,0 +1,33 @@
+{% extends 'trocasolidaria/main.html' %}
+
+{% block content %}
+    <div class='row'>
+        <div class='container'>
+            <hr>
+            <h1>Informações da Cesta</h1>
+            <hr>
+            <h3><strong>Produtor(a): {{cestas.produtor}}</strong></h3>
+            <hr>
+            <h3><strong>Produtos: {{cestas.produtos}}</strong></h3>
+            <hr>
+            <h3><strong>Valor Estimado: R$ {{cestas.valor_estimado|floatformat:2}}</strong></h3>
+            <hr>
+            <h3><strong>Status: {{cestas.disponibilidade}}</strong></h3>
+            <hr>
+            <h3><strong>Data de retirada: {{cestas.data_retirada}}</strong></h3>
+            <hr>            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <div class='row mt-4'>
+                <div class="col-md-10 offset-md-1">
+                    <h3>Veja no mapa o local de retirada: </h3>
+                    <hr>
+                    {{ m|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

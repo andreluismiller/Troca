@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+    
     <div class="row">
         {% for cestas in cestas %}
         <div class="col-lg-4">
@@ -11,7 +12,7 @@
                 <hr>
 
                 
-                <a class="btn btn-outline-success" href="#">Ver mais</a>
+                <a class="btn btn-outline-success" href="{% url 'detalhes-cesta' %}">Ver mais</a>
                 <h4 style="display: inline-block; float:right"><strong>
                 R$ {{cestas.valor_estimado|floatformat:2}}</strong></h4>
 
@@ -19,4 +20,16 @@
         </div>
         {% endfor %}
     </div>
+
+
+    <div class='row'>
+        <div class='container'>
+            <hr><h2>Sobre o Troca Solidária</h2>
+            <p>
+                A Troca Solidária...
+            </p>
+        </div>
+
+    </div>
+
 {% endblock content %}
